@@ -1,6 +1,6 @@
 {
   "name": "@elevanaltd/ui",
-  "version": "0.1.0-experimental",
+  "version": "0.1.0",
   "description": "React UI components for EAV Operations Suite",
   "type": "module",
   "files": [
