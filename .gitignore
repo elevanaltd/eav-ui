@@ -1,6 +1,5 @@
 # Dependencies
 node_modules/
-package-lock.json
 
 # Build outputs
 dist/
@@ -57,3 +56,5 @@ temp/
 # Package manager locks (optional - keep package-lock.json if preferred)
 # Uncomment if you want to commit lock files:
 # !package-lock.json
+
+/node_modules
