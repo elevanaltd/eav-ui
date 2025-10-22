@@ -18,6 +18,9 @@ jobs:
   quality-gates:
     name: Quality Gates (lint + typecheck + test + build + CSS validation)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read  # Required to download @elevanaltd/shared-lib from GitHub Packages
 
     steps:
       - name: Checkout code
