@@ -28,9 +28,18 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com/'
+          scope: '@elevanaltd'
+
+      - name: Configure GitHub Packages authentication
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+          echo "@elevanaltd:registry=https://npm.pkg.github.com/" >> ~/.npmrc
 
       - name: Install dependencies (reproducible build)
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run lint (must pass)
         run: npm run lint
