@@ -10,7 +10,15 @@ This package depends on `@elevanaltd/shared-lib@^0.1.8` which is hosted on GitHu
 
 **Handled Automatically** ✅
 
-GitHub Actions provides `GITHUB_TOKEN` automatically with `read:packages` permission.
+GitHub Actions provides `GITHUB_TOKEN` automatically, but workflows must explicitly request `packages` permissions.
+
+**Required Permissions:**
+```yaml
+permissions:
+  contents: read
+  packages: read   # CI workflow (downloads dependencies)
+  packages: write  # Publish workflow (publishes package)
+```
 
 Our workflows configure authentication via:
 ```yaml
