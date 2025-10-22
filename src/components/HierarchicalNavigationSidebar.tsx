@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useNavigation, type Project, type Video } from '@elevanaltd/shared-lib';
 import './HierarchicalNavigationSidebar.css';
 
-interface HierarchicalNavigationSidebarProps {
+export interface HierarchicalNavigationSidebarProps {
   projects: Project[];
   videos: Record<string, Video[]>;
   loading: boolean;
   error?: string;
   expandedProjects?: Set<string>;
+  // eslint-disable-next-line no-unused-vars
   onProjectExpand: (projectId: string) => void;
 }
 
@@ -110,7 +111,7 @@ export function HierarchicalNavigationSidebar({
         <ul className="nav-project-list">
           {projects.map((project) => {
             const isExpanded = expandedProjects.has(project.id);
-            const isSelected = isProjectSelected(project);
+            const isSelected = isProjectSelected(project.id);
             const projectVideos = videos[project.eav_code] || [];
 
             return (
@@ -137,7 +138,7 @@ export function HierarchicalNavigationSidebar({
                 {isExpanded && projectVideos.length > 0 && (
                   <ul className="nav-video-list">
                     {projectVideos.map((video) => {
-                      const isVideoSelected = checkVideoSelected(video);
+                      const isVideoSelected = checkVideoSelected(video.id);
                       return (
                         <li
                           key={video.id}
