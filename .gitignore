@@ -33,6 +33,9 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
+# npm auth token (GitHub Actions provides this)
+.npmrc.local
+
 # Temporary
 *.log
 .cache/
