@@ -4,17 +4,38 @@ React UI components for EAV Operations Suite.
 
 **Architecture:** Two-layer pattern with `@elevanaltd/shared-lib` (logic) and `@elevanaltd/ui` (presentation).
 
+## Status
+
+✅ **PUBLISHED** - v0.1.1 available on GitHub Packages
+
+**Latest Version**: `0.1.1`
+**Package Registry**: https://github.com/elevanaltd/eav-ui/pkgs/npm/ui
+**Components**: HierarchicalNavigationSidebar
+
 ## Installation
 
 ```bash
 npm install @elevanaltd/ui @elevanaltd/shared-lib
 ```
 
+**Authentication Required**: Configure GitHub Packages access in `.npmrc`:
+
+```bash
+# Project .npmrc or ~/.npmrc
+@elevanaltd:registry=https://npm.pkg.github.com/
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+Create a GitHub Personal Access Token with `read:packages` scope at https://github.com/settings/tokens
+
 ## Usage
+
+### Basic Integration
 
 ```tsx
 import { NavigationProvider } from '@elevanaltd/shared-lib';
 import { HierarchicalNavigationSidebar } from '@elevanaltd/ui';
+import '@elevanaltd/ui/dist/index.css'; // ⚠️ REQUIRED: Import styles
 
 function App() {
   return (
@@ -29,6 +50,8 @@ function App() {
   );
 }
 ```
+
+**Important:** The CSS import is required for navigation styling to work correctly.
 
 ## App-Specific Filtering Pattern
 
