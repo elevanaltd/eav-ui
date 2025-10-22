@@ -139,4 +139,140 @@ describe('HierarchicalNavigationSidebar', () => {
 
     expect(sidebar).toHaveClass('nav-sidebar--collapsed');
   });
+
+  // CSS Contract Validation Tests (code-review-specialist remediation)
+  describe('CSS class validation', () => {
+    it('should use defined CSS classes for project structure', () => {
+      const { container } = render(
+        <NavigationProvider>
+          <HierarchicalNavigationSidebar
+            projects={mockProjects}
+            videos={mockVideos}
+            loading={false}
+            expandedProjects={new Set(['1'])}
+            onProjectExpand={vi.fn()}
+          />
+        </NavigationProvider>
+      );
+
+      // Verify correct BEM structure matching CSS
+      expect(container.querySelector('.nav-project')).toBeInTheDocument();
+      expect(container.querySelector('.nav-project-item')).toBeInTheDocument();
+      expect(container.querySelector('.nav-project-info')).toBeInTheDocument();
+      expect(container.querySelector('.nav-project-icon')).toBeInTheDocument();
+      expect(container.querySelector('.nav-project-expand')).toBeInTheDocument();
+    });
+
+    it('should use defined CSS classes for video structure', () => {
+      const { container } = render(
+        <NavigationProvider>
+          <HierarchicalNavigationSidebar
+            projects={mockProjects}
+            videos={mockVideos}
+            loading={false}
+            expandedProjects={new Set(['1'])}
+            onProjectExpand={vi.fn()}
+          />
+        </NavigationProvider>
+      );
+
+      // Verify video structure matches CSS
+      expect(container.querySelector('.nav-video-list')).toBeInTheDocument();
+      expect(container.querySelector('.nav-video-item')).toBeInTheDocument();
+      expect(container.querySelector('.nav-video-info')).toBeInTheDocument();
+      expect(container.querySelector('.nav-video-title')).toBeInTheDocument();
+    });
+
+    it('should apply correct status classes (status-ready, not nav-video-status--ready)', () => {
+      const { container } = render(
+        <NavigationProvider>
+          <HierarchicalNavigationSidebar
+            projects={mockProjects}
+            videos={mockVideos}
+            loading={false}
+            expandedProjects={new Set(['1'])}
+            onProjectExpand={vi.fn()}
+          />
+        </NavigationProvider>
+      );
+
+      // Verify status classes match CSS (status-ready, NOT nav-video-status--ready)
+      const statusIndicator = container.querySelector('.status-ready, .status-processing, .status-pending');
+      expect(statusIndicator).toBeInTheDocument();
+    });
+  });
+
+  // Essential UX Features (code-review-specialist blocking issues)
+  describe('Essential UX features', () => {
+    it('should display video count for projects', () => {
+      const { container } = render(
+        <NavigationProvider>
+          <HierarchicalNavigationSidebar
+            projects={mockProjects}
+            videos={mockVideos}
+            loading={false}
+            expandedProjects={new Set(['1'])}
+            onProjectExpand={vi.fn()}
+          />
+        </NavigationProvider>
+      );
+
+      // Verify metadata display (2 videos in PA001)
+      expect(container.textContent).toContain('2 videos');
+    });
+
+    it('should display stream status metadata for videos', () => {
+      const { container } = render(
+        <NavigationProvider>
+          <HierarchicalNavigationSidebar
+            projects={mockProjects}
+            videos={mockVideos}
+            loading={false}
+            expandedProjects={new Set(['1'])}
+            onProjectExpand={vi.fn()}
+          />
+        </NavigationProvider>
+      );
+
+      // Verify stream status metadata displayed
+      expect(container.querySelector('.nav-video-meta')).toBeInTheDocument();
+    });
+
+    it('should display due date when present', () => {
+      const projectsWithDueDate = [
+        { id: '1', title: 'Project Alpha', eav_code: 'PA001', due_date: '2025-12-31' },
+      ];
+
+      const { container } = render(
+        <NavigationProvider>
+          <HierarchicalNavigationSidebar
+            projects={projectsWithDueDate}
+            videos={mockVideos}
+            loading={false}
+            onProjectExpand={vi.fn()}
+          />
+        </NavigationProvider>
+      );
+
+      // Verify due date renders in project metadata
+      expect(container.textContent).toContain('2025-12-31');
+    });
+
+    it('should show status indicator for video stream health', () => {
+      const { container } = render(
+        <NavigationProvider>
+          <HierarchicalNavigationSidebar
+            projects={mockProjects}
+            videos={mockVideos}
+            loading={false}
+            expandedProjects={new Set(['1'])}
+            onProjectExpand={vi.fn()}
+          />
+        </NavigationProvider>
+      );
+
+      // Verify status dot exists
+      expect(container.querySelector('.nav-video-status')).toBeInTheDocument();
+    });
+  });
 });

@@ -98,80 +98,99 @@ export function HierarchicalNavigationSidebar({
     );
   }
 
+  // Status calculation helper (from scripts-web)
+  const getStatusDot = (mainStatus?: string, voStatus?: string) => {
+    if (mainStatus === 'ready' && voStatus === 'ready') return 'status-ready';
+    if (mainStatus === 'processing' || voStatus === 'processing') return 'status-processing';
+    return 'status-pending';
+  };
+
   return (
     <aside className={`nav-sidebar ${isCollapsed ? 'nav-sidebar--collapsed' : ''}`}>
       <div className="nav-header">
         <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
           {isCollapsed ? '→' : '←'}
-          </button>
-        {!isCollapsed && <h2 className="nav-title">Projects</h2>}
+        </button>
       </div>
 
       <nav className="nav-content">
-        <ul className="nav-project-list">
-          {projects.map((project) => {
-            const isExpanded = expandedProjects.has(project.id);
-            const isSelected = isProjectSelected(project.id);
-            const projectVideos = videos[project.eav_code] || [];
+        <div className="nav-section">
+          <div className="nav-list">
+            {projects.map((project) => {
+              const isExpanded = expandedProjects.has(project.id);
+              const isSelected = isProjectSelected(project.id);
+              const projectVideos = videos[project.eav_code] || [];
 
-            return (
-              <li key={project.id} className="nav-project-item-wrapper">
-                <div
-                  className={`nav-project-item ${isSelected ? 'nav-project-item--selected' : ''}`}
-                  onClick={() => handleProjectClick(project)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleProjectClick(project);
-                    }
-                  }}
-                >
-                  <span className="nav-expand-icon">{isExpanded ? '▼' : '▶'}</span>
-                  <span className="nav-project-title">{project.title}</span>
-                  {projectVideos.length > 0 && (
-                    <span className="nav-video-count">{projectVideos.length}</span>
-                  )}
-                </div>
+              return (
+                <div key={project.id} className="nav-project">
+                  <div
+                    className={`nav-project-item ${isSelected ? 'nav-project-item--selected' : ''}`}
+                    onClick={() => handleProjectClick(project)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleProjectClick(project);
+                      }
+                    }}
+                  >
+                    <div className="nav-project-icon">
+                      {isExpanded ? '📂' : '📁'}
+                    </div>
+                    <div className="nav-project-info">
+                      <div className="nav-project-title">{project.title}</div>
+                      <div className="nav-project-meta">
+                        {isExpanded ? `${projectVideos.length} videos` : 'Click to expand'}
+                        {project.due_date && ` • Due ${project.due_date}`}
+                      </div>
+                    </div>
+                    <div className="nav-project-expand">
+                      {isExpanded ? '▼' : '▶'}
+                    </div>
+                  </div>
 
-                {isExpanded && projectVideos.length > 0 && (
-                  <ul className="nav-video-list">
-                    {projectVideos.map((video) => {
-                      const isVideoSelected = checkVideoSelected(video.id);
-                      return (
-                        <li
-                          key={video.id}
-                          className={`nav-video-item ${isVideoSelected ? 'nav-video-item--selected' : ''}`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleVideoClick(video, project);
-                          }}
-                          role="button"
-                          tabIndex={0}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              e.preventDefault();
+                  {isExpanded && projectVideos.length > 0 && (
+                    <div className="nav-video-list">
+                      {projectVideos.map((video) => {
+                        const isVideoSelected = checkVideoSelected(video.id);
+                        return (
+                          <div
+                            key={video.id}
+                            className={`nav-video-item ${isVideoSelected ? 'nav-video-item--selected' : ''}`}
+                            onClick={(e) => {
                               e.stopPropagation();
                               handleVideoClick(video, project);
-                            }
-                          }}
-                        >
-                          <span className="nav-video-title">{video.title}</span>
-                          {video.main_stream_status && (
-                            <span className={`nav-video-status nav-video-status--${video.main_stream_status}`}>
-                              {video.main_stream_status}
-                            </span>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+                            }}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleVideoClick(video, project);
+                              }
+                            }}
+                          >
+                            <div
+                              className={`nav-video-status ${getStatusDot(video.main_stream_status, video.vo_stream_status)}`}
+                            ></div>
+                            <div className="nav-video-info">
+                              <div className="nav-video-title">{video.title}</div>
+                              <div className="nav-video-meta">
+                                Main: {video.main_stream_status || 'N/A'} | VO: {video.vo_stream_status || 'N/A'}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </nav>
     </aside>
   );
