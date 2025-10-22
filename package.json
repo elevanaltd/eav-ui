@@ -45,8 +45,8 @@
     "url": "git+https://github.com/elevanaltd/eav-ui.git"
   },
   "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "dependencies": {
     "@elevanaltd/shared-lib": "^0.1.8"
