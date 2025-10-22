@@ -119,7 +119,7 @@ describe('HierarchicalNavigationSidebar Integration', () => {
   });
 
   it('should display video status badges', () => {
-    render(
+    const { container } = render(
       <NavigationProvider>
         <HierarchicalNavigationSidebar
           projects={mockProjects}
@@ -131,8 +131,9 @@ describe('HierarchicalNavigationSidebar Integration', () => {
       </NavigationProvider>
     );
 
-    expect(screen.getByText('ready')).toBeInTheDocument();
-    expect(screen.getByText('processing')).toBeInTheDocument();
+    // Verify stream status metadata (scripts-web pattern: "Main: ready | VO: N/A")
+    expect(container.textContent).toContain('Main: ready');
+    expect(container.textContent).toContain('Main: processing');
   });
 
   it('should show video count for projects with videos', () => {
@@ -142,12 +143,13 @@ describe('HierarchicalNavigationSidebar Integration', () => {
           projects={mockProjects}
           videos={mockVideos}
           loading={false}
+          expandedProjects={new Set(['1'])}
           onProjectExpand={vi.fn()}
         />
       </NavigationProvider>
     );
 
-    const videoCounts = container.querySelectorAll('.nav-video-count');
-    expect(videoCounts).toHaveLength(2);
+    // Verify video count in metadata text (scripts-web pattern: "2 videos")
+    expect(container.textContent).toContain('2 videos');
   });
 });
