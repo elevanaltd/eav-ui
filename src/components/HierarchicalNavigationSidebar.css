@@ -2,17 +2,16 @@
 
 .nav-sidebar {
   width: 280px;
-  height: calc(100vh - 64px);
+  height: 100%;
   background: white;
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  position: fixed;
-  left: 0;
-  top: 64px;
-  z-index: 99;
+  position: relative;
+  z-index: 1;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
   transition: width 0.3s ease;
+  flex-shrink: 0;
 }
 
 .nav-sidebar--collapsed {
@@ -275,19 +274,11 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .nav-sidebar {
-    width: 100%;
-    max-width: 280px;
-    transform: translateX(-100%);
-    height: calc(100vh - 56px);
-    top: 56px;
-  }
-
-  .nav-sidebar.nav-sidebar--mobile-open {
-    transform: translateX(0);
+    width: 60px;
   }
 
   .nav-sidebar--collapsed {
-    transform: translateX(-100%);
+    width: 60px;
   }
 }
 
