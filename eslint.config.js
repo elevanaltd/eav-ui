@@ -21,6 +21,11 @@ export default [
           jsx: true,
         },
       },
+      globals: {
+        document: 'readonly',
+        window: 'readonly',
+        console: 'readonly',
+      },
     },
     settings: {
       react: {
