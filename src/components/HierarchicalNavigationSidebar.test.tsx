@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { NavigationProvider } from '@elevanaltd/shared-lib';
 import { HierarchicalNavigationSidebar } from './HierarchicalNavigationSidebar';
 
@@ -69,14 +69,16 @@ describe('HierarchicalNavigationSidebar', () => {
     expect(screen.getByText('Video 2')).toBeInTheDocument();
   });
 
-  it('should highlight selected project', () => {
-    const { container } = render(
+  it('should call onProjectExpand when project clicked', () => {
+    const onProjectExpand = vi.fn();
+
+    render(
       <NavigationProvider>
         <HierarchicalNavigationSidebar
           projects={mockProjects}
           videos={mockVideos}
           loading={false}
-          onProjectExpand={vi.fn()}
+          onProjectExpand={onProjectExpand}
         />
       </NavigationProvider>
     );
@@ -84,8 +86,7 @@ describe('HierarchicalNavigationSidebar', () => {
     const projectAlpha = screen.getByText('Project Alpha');
     fireEvent.click(projectAlpha);
 
-    const projectItem = projectAlpha.closest('.nav-project-item');
-    expect(projectItem).toHaveClass('nav-project-item--selected');
+    expect(onProjectExpand).toHaveBeenCalledWith('1');
   });
 
   it('should display loading state', () => {
