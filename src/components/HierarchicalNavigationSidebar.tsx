@@ -62,12 +62,17 @@ export function HierarchicalNavigationSidebar({
   if (loading && projects.length === 0) {
     return (
       <aside className={`nav-sidebar ${isCollapsed ? 'nav-sidebar--collapsed' : ''}`}>
-        <div className="nav-header">
-          <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
-            {isCollapsed ? '→' : '←'}
-          </button>
-        </div>
-        <div className="nav-loading">Loading projects...</div>
+        <nav className="nav-content">
+          <div className="nav-section">
+            <div className="nav-section-header">
+              <h3 className="nav-section-title">Projects (0)</h3>
+              <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
+                {isCollapsed ? '→' : '←'}
+              </button>
+            </div>
+            <div className="nav-loading">Loading projects...</div>
+          </div>
+        </nav>
       </aside>
     );
   }
@@ -75,12 +80,17 @@ export function HierarchicalNavigationSidebar({
   if (error) {
     return (
       <aside className={`nav-sidebar ${isCollapsed ? 'nav-sidebar--collapsed' : ''}`}>
-        <div className="nav-header">
-          <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
-            {isCollapsed ? '→' : '←'}
-          </button>
-        </div>
-        <div className="nav-error">{error}</div>
+        <nav className="nav-content">
+          <div className="nav-section">
+            <div className="nav-section-header">
+              <h3 className="nav-section-title">Projects (0)</h3>
+              <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
+                {isCollapsed ? '→' : '←'}
+              </button>
+            </div>
+            <div className="nav-error">{error}</div>
+          </div>
+        </nav>
       </aside>
     );
   }
@@ -88,12 +98,17 @@ export function HierarchicalNavigationSidebar({
   if (projects.length === 0) {
     return (
       <aside className={`nav-sidebar ${isCollapsed ? 'nav-sidebar--collapsed' : ''}`}>
-        <div className="nav-header">
-          <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
-            {isCollapsed ? '→' : '←'}
-          </button>
-        </div>
-        <div className="nav-empty">No projects found</div>
+        <nav className="nav-content">
+          <div className="nav-section">
+            <div className="nav-section-header">
+              <h3 className="nav-section-title">Projects (0)</h3>
+              <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
+                {isCollapsed ? '→' : '←'}
+              </button>
+            </div>
+            <div className="nav-empty">No projects found</div>
+          </div>
+        </nav>
       </aside>
     );
   }
@@ -107,16 +122,17 @@ export function HierarchicalNavigationSidebar({
 
   return (
     <aside className={`nav-sidebar ${isCollapsed ? 'nav-sidebar--collapsed' : ''}`}>
-      <div className="nav-header">
-        <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
-          {isCollapsed ? '→' : '←'}
-        </button>
-      </div>
-
       <nav className="nav-content">
         <div className="nav-section">
-          <div className="nav-list">
-            {projects.map((project) => {
+          <div className="nav-section-header">
+            <h3 className="nav-section-title">Projects ({projects.length})</h3>
+            <button className="nav-toggle" onClick={toggleSidebar} aria-label="Toggle sidebar">
+              {isCollapsed ? '→' : '←'}
+            </button>
+          </div>
+          <div className="nav-list-container">
+            <div className="nav-list">
+              {projects.map((project) => {
               const isExpanded = expandedProjects.has(project.id);
               const isSelected = isProjectSelected(project.id);
               const projectVideos = videos[project.eav_code] || [];
@@ -189,6 +205,7 @@ export function HierarchicalNavigationSidebar({
                 </div>
               );
             })}
+            </div>
           </div>
         </div>
       </nav>
