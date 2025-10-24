@@ -6,11 +6,12 @@ React UI components for EAV Operations Suite.
 
 ## Status
 
-✅ **PUBLISHED** - v0.3.0 available on GitHub Packages
+✅ **PUBLISHED** - v0.4.0 available on GitHub Packages
 
-**Latest Version**: `0.3.0`
+**Latest Version**: `0.4.0`
 **Package Registry**: https://github.com/elevanaltd/eav-ui/pkgs/npm/ui
-**Components**: Header, HierarchicalNavigationSidebar
+**Components**: Header, HierarchicalNavigationSidebar, AutocompleteField
+**Contexts**: DropdownProvider
 
 ## Installation
 
@@ -98,6 +99,68 @@ function App() {
 - Responsive: Hides save status on mobile, always shows settings button
 - Time formatting: "Saved 5s ago", "Saved 3m ago", "Saved 2h ago", or full date
 - Framework-agnostic: Pass user data as props, doesn't manage auth internally
+
+### AutocompleteField Component
+
+Accessible autocomplete dropdown with inline "Other" support.
+
+```tsx
+import { AutocompleteField, DropdownProvider } from '@elevanaltd/ui'
+import { useDropdownOptions } from '@elevanaltd/shared-lib'
+import { supabase } from './lib/supabase'
+import '@elevanaltd/ui/dist/index.css'
+
+function App() {
+  const [value, setValue] = useState('')
+  const { data: options } = useDropdownOptions('shot_type', supabase)
+
+  return (
+    <DropdownProvider>
+      <AutocompleteField
+        value={value}
+        onChange={setValue}
+        options={options || []}
+        allowOther={true}
+        showOtherText={true}
+      />
+    </DropdownProvider>
+  )
+}
+```
+
+**Features:**
+- ✅ WAI-ARIA combobox pattern (WCAG 2.1.1 compliant)
+- ✅ Keyboard navigation (Arrow keys, Enter, Escape)
+- ✅ Inline "Other" field with auto-save on blur
+- ✅ Position-aware (updates on scroll/resize)
+- ✅ Screen reader accessible
+- ✅ SSR-safe (uses React.useId for deterministic IDs)
+- ✅ Production-ready (validated by critical-engineer)
+
+**Props:**
+- `value: string` - Current selected value
+- `onChange: (value: string) => void` - Value change handler
+- `options: string[]` - Array of dropdown options
+- `allowOther: boolean` - Enable "Other" option
+- `showOtherText: boolean` - Show custom text input for "Other"
+
+### DropdownContext
+
+Context provider for managing single-dropdown-open behavior across application.
+
+```tsx
+import { DropdownProvider } from '@elevanaltd/ui'
+
+function App() {
+  return (
+    <DropdownProvider>
+      {/* Only one dropdown can be open at a time */}
+      <AutocompleteField {...props1} />
+      <AutocompleteField {...props2} />
+    </DropdownProvider>
+  )
+}
+```
 
 ## App-Specific Filtering Pattern
 
