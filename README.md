@@ -6,11 +6,11 @@ React UI components for EAV Operations Suite.
 
 ## Status
 
-✅ **PUBLISHED** - v0.1.1 available on GitHub Packages
+✅ **PUBLISHED** - v0.3.0 available on GitHub Packages
 
-**Latest Version**: `0.1.1`
+**Latest Version**: `0.3.0`
 **Package Registry**: https://github.com/elevanaltd/eav-ui/pkgs/npm/ui
-**Components**: HierarchicalNavigationSidebar
+**Components**: Header, HierarchicalNavigationSidebar
 
 ## Installation
 
@@ -52,6 +52,52 @@ function App() {
 ```
 
 **Important:** The CSS import is required for navigation styling to work correctly.
+
+### Header Component
+
+Shared header with app branding, save status, and user controls.
+
+```tsx
+import { Header } from '@elevanaltd/ui';
+
+function App() {
+  const { user, logout } = useAuth();
+  const [lastSaved, setLastSaved] = useState<Date>();
+  const [showSettings, setShowSettings] = useState(false);
+
+  return (
+    <>
+      <Header
+        title="Script Editor"
+        userEmail={user?.email}
+        lastSaved={lastSaved}
+        onSettings={() => setShowSettings(true)}
+      />
+      {showSettings && (
+        <SettingsModal onClose={() => setShowSettings(false)}>
+          {/* App-specific settings */}
+          <button onClick={logout}>Logout</button>
+        </SettingsModal>
+      )}
+      <main style={{ paddingTop: '64px' }}>
+        {/* App content */}
+      </main>
+    </>
+  );
+}
+```
+
+**Props:**
+- `title` (string) - App name displayed in header
+- `userEmail` (string, optional) - User email from auth context
+- `lastSaved` (Date, optional) - Timestamp for save status display
+- `onSettings` (() => void) - Callback when settings button clicked
+
+**Features:**
+- Fixed positioning with 64px height (add `paddingTop: '64px'` to content)
+- Responsive: Hides save status on mobile, always shows settings button
+- Time formatting: "Saved 5s ago", "Saved 3m ago", "Saved 2h ago", or full date
+- Framework-agnostic: Pass user data as props, doesn't manage auth internally
 
 ## App-Specific Filtering Pattern
 
