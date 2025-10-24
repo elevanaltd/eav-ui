@@ -33,6 +33,7 @@ export default [
       },
     },
     rules: {
+      'no-unused-vars': 'off', // Disable base rule as it can report incorrect errors
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'error',
       'react-hooks/rules-of-hooks': 'error',

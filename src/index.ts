@@ -17,6 +17,18 @@ export {
   type HeaderProps,
 } from './components/Header';
 
+// Form components
+export {
+  AutocompleteField,
+  type AutocompleteFieldProps,
+} from './components/AutocompleteField';
+
+// Contexts
+export {
+  DropdownProvider,
+  useDropdown,
+} from './contexts/DropdownContext';
+
 // Re-export shared-lib types for convenience
 export type { Project, Video, NavigationContextType } from '@elevanaltd/shared-lib';
 export { NavigationProvider, useNavigation } from '@elevanaltd/shared-lib';

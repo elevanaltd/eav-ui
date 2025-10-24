@@ -8,7 +8,6 @@ export interface HierarchicalNavigationSidebarProps {
   loading: boolean;
   error?: string;
   expandedProjects?: Set<string>;
-  // eslint-disable-next-line no-unused-vars
   onProjectExpand: (projectId: string) => void;
 }
 
