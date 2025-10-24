@@ -11,6 +11,12 @@ export {
   type HierarchicalNavigationSidebarProps,
 } from './components/HierarchicalNavigationSidebar';
 
+// Layout components
+export {
+  Header,
+  type HeaderProps,
+} from './components/Header';
+
 // Re-export shared-lib types for convenience
 export type { Project, Video, NavigationContextType } from '@elevanaltd/shared-lib';
 export { NavigationProvider, useNavigation } from '@elevanaltd/shared-lib';
